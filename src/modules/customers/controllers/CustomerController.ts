@@ -2,8 +2,17 @@ import { Request, Response } from "express";
 import { CreateCustomer } from "../services/CreateCustomerService";
 import { CustomerSession } from "../services/CustomerSessionService";
 import { DeleteCustomer } from "../services/DeleteCustomerService";
+import { CustomerRepository } from "../typeorm/repository/CustomerRepository";
 
 export class CustomerController {
+
+
+    static async findall(request: Request, response: Response): Promise<Response> {
+
+        return response.status(201).json(await CustomerRepository.findall());
+    }
+
+
     static async create(request: Request, response: Response): Promise<Response> {
         const { username, password } = request.body;
 

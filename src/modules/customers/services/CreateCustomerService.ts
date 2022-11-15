@@ -26,11 +26,17 @@ export class CreateCustomer {
 
         const account = await AccountRepository.createAccount(customer);
 
+        customer.account = account;
+        await CustomerRepository.associateAccount(customer, account);
+
         const token = sign({}, authConfig.jwt.customerSecret, {
             subject: customer.id.toString(),
             expiresIn: authConfig.jwt.expiresIn
         })
 
-        return { customer, account, token }
+        //@ts-expect-error 
+        delete customer.account.customer;
+
+        return { customer, token }
     }
 }

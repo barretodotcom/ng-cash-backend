@@ -8,10 +8,10 @@ export class Account {
     @PrimaryGeneratedColumn('identity')
     id: number;
 
-    @Column({ type: "real" })
+    @Column({ type: "bigint" })
     balance: number;
 
-    @OneToOne(type => Customer, { eager: false })
+    @OneToOne(type => Customer, customer => customer.account)
     @JoinColumn()
     customer: Customer;
 

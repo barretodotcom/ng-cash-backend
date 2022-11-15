@@ -17,6 +17,7 @@ services:
   db:
     container_name: ng-cash-database
     image: postgres:latest
+    restart: 'always'
     ports:
       - 5432:5432
     environment:
@@ -24,8 +25,25 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=ng-challenge
   rabbitmq:
+    hostname: rabbitmq-container
+    image: rabbitmq:3.7-management
     container_name: ng-cash-rabbitmq
-    image: rabbitmq
+    build: .
     ports:
       - 15672:15672
       - 5672:5672
+    volumes:
+      - type: bind
+        source: ./rabbitmq-enabled-plugins
+        target: /etc/rabbitmq/enabled_plugins
+      - type: bind
+        source: ./rabbitmq.conf
+        target: /etc/rabbitmq/rabbitmq.conf
+      - type: bind
+        source: ./rabbitmq-defs.json
+        target: /etc/rabbitmq/rabbitmq-defs.json
+
+networks:
+  default:
+    external:
+      name: rabbitmq-conn

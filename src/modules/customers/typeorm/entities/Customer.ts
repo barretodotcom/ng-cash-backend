@@ -13,7 +13,7 @@ export class Customer {
     @Column()
     password: string;
 
-    @OneToOne(type => (Account), { eager: true })
+    @OneToOne(type => (Account), account => account.customer, { eager: true })
     @JoinColumn()
     account: Account;
 

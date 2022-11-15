@@ -3,6 +3,7 @@ import { CustomerRepository } from "../typeorm/repository/CustomerRepository";
 import { compareSync } from 'bcryptjs'
 import { sign } from 'jsonwebtoken'
 import { authConfig } from "../../../config/authConfig";
+
 interface ICustomerSession {
     username: string;
     password: string;
@@ -21,10 +22,13 @@ export class CustomerSession {
         }
 
         const token = sign({}, authConfig.jwt.customerSecret, {
-            subject: customerExists.id.toString(),
+            subject: JSON.stringify({
+                customerId: customerExists.id,
+                accountId: customerExists.account.id
+            }),
             expiresIn: authConfig.jwt.expiresIn
         })
 
-        return { customerExists, token };
+        return { customer: customerExists, token };
     }
 }

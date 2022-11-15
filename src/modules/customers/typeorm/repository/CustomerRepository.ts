@@ -1,5 +1,6 @@
 import { ICreateCustomer } from "../../../../interfaces/Customer/ICreateCustomer";
 import { dataSource } from "../../../../shared/typeorm/connection"
+import { Account } from "../../../accounts/typeorm/entities/Account";
 import { Customer } from "../entities/Customer"
 
 
@@ -8,6 +9,12 @@ export class CustomerRepository {
 
     static customerRepository = dataSource.getRepository(Customer)
 
+    static async findall(): Promise<Customer[] | null> {
+        const customer = await this.customerRepository.find()
+
+        return customer;
+    }
+
     static async findById(id: number): Promise<Customer | null> {
         const customer = await this.customerRepository.findOneBy({ id })
 
@@ -15,7 +22,11 @@ export class CustomerRepository {
     }
 
     static async findByUsername(username: string): Promise<Customer | null> {
-        const customer = await this.customerRepository.findOneBy({ username })
+        const customer = await this.customerRepository.findOne({
+            where: {
+                username
+            }
+        })
 
         return customer;
     }
@@ -32,5 +43,11 @@ export class CustomerRepository {
 
         return customer;
     }
+
+    static async associateAccount(customer: Customer, account: Account): Promise<void> {
+        customer.account = account;
+        await this.customerRepository.save(customer);
+    }
+
 
 }

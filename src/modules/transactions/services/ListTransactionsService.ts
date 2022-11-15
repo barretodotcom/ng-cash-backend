@@ -4,7 +4,7 @@ import { Transactions } from "../typeorm/entities/Account";
 import { TransactionsRepository } from "../typeorm/repository/TransactionsRepository";
 
 export class ListTransactionsServices {
-    static async execute(accountId: number): Promise<Transactions[]> {
+    public async execute(accountId: number): Promise<Transactions[]> {
 
         const account = await AccountRepository.findById(accountId);
 
