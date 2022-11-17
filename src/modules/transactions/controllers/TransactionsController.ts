@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { ListTransactionsServices } from "../services/ListTransactionsService";
+import { ListUserTransactionsService } from "../services/ListUserTransactionsService";
 import { SendTransactionMessageService } from "../services/SendTransactionMessage";
 
 export class TransactionsController {
@@ -23,5 +24,14 @@ export class TransactionsController {
         await sendTransactionMessageService.execute({ debitedAccountId, creditedAccountUsername, value });
 
         return response.json({ message: "Transação enviada com sucesso, chegará em segundos." }).status(201)
+    }
+
+    static async findAllUserTransactions(request: Request, response: Response): Promise<Response> {
+        const listUserTransactionsService = new ListUserTransactionsService();
+        const { accountId } = request.params;
+
+        const allTransactions = await listUserTransactionsService.execute(parseInt(accountId));
+
+        return response.json(allTransactions);
     }
 }

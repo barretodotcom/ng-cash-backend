@@ -10,7 +10,7 @@ interface ICustomerSession {
 }
 
 export class CustomerSession {
-    static async execute({ username, password }: ICustomerSession) {
+    public async execute({ username, password }: ICustomerSession) {
         const customerExists = await CustomerRepository.findByUsername(username);
 
         if (!customerExists) {

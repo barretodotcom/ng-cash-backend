@@ -7,7 +7,7 @@ import { authConfig } from "../../../config/authConfig";
 import { AccountRepository } from "../../accounts/typeorm/repositories/AccountRepository";
 export class CreateCustomer {
 
-    static async execute({ username, password }: ICreateCustomer) {
+    public async execute({ username, password }: ICreateCustomer) {
 
         if (username.length < 3) {
             throw new AppError("Seu nome deve conter pelomenos 3 caracteres.")
