@@ -10,10 +10,10 @@ export class Transactions {
     @Column()
     balance: number;
 
-    @ManyToOne(type => Account, account => account.transactions)
+    @ManyToOne(type => Account, account => account.debitedTransactions)
     debitedAccount: Account;
 
-    @ManyToOne(type => Account, account => account.transactions)
+    @ManyToOne(type => Account, account => account.creditedTransactions)
     creditedAccount: Account;
 
     @CreateDateColumn()

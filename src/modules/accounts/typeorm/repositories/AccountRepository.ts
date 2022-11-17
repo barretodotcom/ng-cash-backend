@@ -30,15 +30,18 @@ export class AccountRepository {
         const account = this.accountRepository.create({
             balance: valueInCents,
             customer: customer,
+            creditedTransactions: [],
+            debitedTransactions: []
         })
 
-        await this.accountRepository.save(account);
+        const createdAccountObject = await this.accountRepository.save(account);
 
         const newAccount = {
-            id: account.id,
-            balance: account.balance,
-            transactions: account.transactions,
-            createdAt: account.createdAt,
+            id: createdAccountObject.id,
+            balance: createdAccountObject.balance,
+            creditedTransactions: createdAccountObject.creditedTransactions,
+            debitedTransactions: createdAccountObject.debitedTransactions,
+            createdAt: createdAccountObject.createdAt,
             customer
         }
 

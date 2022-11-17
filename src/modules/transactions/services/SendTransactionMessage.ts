@@ -32,11 +32,6 @@ export class SendTransactionMessageService {
         if (value <= 0) {
             throw new AppError("O valor enviado precisa ser maio do que zero.")
         }
-        console.log({
-            debitedAccountId,
-            creditedAccountId: creditedCustomer.account.id,
-            value
-        });
 
         await RabbitMQConnection.sendMessageTo('transactions', {
             debitedAccountId,

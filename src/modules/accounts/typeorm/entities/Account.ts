@@ -15,8 +15,13 @@ export class Account {
     @JoinColumn()
     customer: Customer;
 
-    @OneToMany(type => Transactions, transaction => transaction)
-    transactions: Transactions[]
+    @OneToMany(type => Transactions, transaction => transaction.debitedAccount, { eager: true })
+    @JoinColumn()
+    debitedTransactions: Transactions[]
+
+    @OneToMany(type => Transactions, transaction => transaction.creditedAccount, { eager: true })
+    @JoinColumn()
+    creditedTransactions: Transactions[]
 
     @CreateDateColumn()
     createdAt: Date;

@@ -9,6 +9,7 @@ export function errorMiddleware(error: Error, request: Request, response: Respon
             code: error.code
         });
     }
+    console.log(error);
 
     return response.status(400).json({
         status: 'error',
