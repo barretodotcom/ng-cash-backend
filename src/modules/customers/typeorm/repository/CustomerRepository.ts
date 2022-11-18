@@ -1,6 +1,7 @@
 import { ICreateCustomer } from "../../../../interfaces/Customer/ICreateCustomer";
 import { dataSource } from "../../../../shared/typeorm/connection"
 import { Account } from "../../../accounts/typeorm/entities/Account";
+import { AccountRepository } from "../../../accounts/typeorm/repositories/AccountRepository";
 import { Customer } from "../entities/Customer"
 
 
@@ -49,5 +50,15 @@ export class CustomerRepository {
         await this.customerRepository.save(customer);
     }
 
+    static async findByAccount(account: Account): Promise<Customer> {
+
+        const customer = await this.customerRepository
+            .createQueryBuilder('customer')
+            .where('customer."accountId" = :id', { id: account.id })
+            .getOne() as Customer;
+        customer.account = account;
+
+        return customer as Customer;
+    }
 
 }

@@ -12,7 +12,7 @@ const dataSource = new DataSource({
     database: "ng-challenge",
     migrations: ["/src/app/shared/typeorm/migrations"],
     synchronize: true,
-    entities: [Customer, Account, Transactions]
+    entities: [Customer, Account, Transactions],
 });
 
 async function connectToDatabase(): Promise<void> {

@@ -28,9 +28,10 @@ export class TransactionsController {
 
     static async findAllUserTransactions(request: Request, response: Response): Promise<Response> {
         const listUserTransactionsService = new ListUserTransactionsService();
-        const { accountId } = request.params;
 
-        const allTransactions = await listUserTransactionsService.execute(parseInt(accountId));
+        const { accountId } = request.customer.accountId;
+
+        const allTransactions = await listUserTransactionsService.execute(accountId);
 
         return response.json(allTransactions);
     }

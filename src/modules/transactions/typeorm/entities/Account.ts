@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn, OneToOne, CreateDateColumn, ManyToOne } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, OneToOne, CreateDateColumn, ManyToOne, JoinColumn } from "typeorm";
 import { Account } from "../../../accounts/typeorm/entities/Account";
 
 @Entity('transactions')
@@ -11,9 +11,11 @@ export class Transactions {
     balance: number;
 
     @ManyToOne(type => Account, account => account.debitedTransactions)
+    @JoinColumn()
     debitedAccount: Account;
 
     @ManyToOne(type => Account, account => account.creditedTransactions)
+    @JoinColumn()
     creditedAccount: Account;
 
     @CreateDateColumn()

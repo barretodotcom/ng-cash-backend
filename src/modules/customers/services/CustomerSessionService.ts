@@ -3,6 +3,8 @@ import { CustomerRepository } from "../typeorm/repository/CustomerRepository";
 import { compareSync } from 'bcryptjs'
 import { sign } from 'jsonwebtoken'
 import { authConfig } from "../../../config/authConfig";
+import { plainToClass } from "class-transformer";
+import { Customer } from "../typeorm/entities/Customer";
 
 interface ICustomerSession {
     username: string;
@@ -29,6 +31,6 @@ export class CustomerSession {
             expiresIn: authConfig.jwt.expiresIn
         })
 
-        return { customer: customerExists, token };
+        return { customer: plainToClass(Customer, customerExists), token };
     }
 }

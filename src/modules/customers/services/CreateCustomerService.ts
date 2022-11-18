@@ -5,6 +5,8 @@ import { CustomerRepository } from "../typeorm/repository/CustomerRepository";
 import { sign } from 'jsonwebtoken'
 import { authConfig } from "../../../config/authConfig";
 import { AccountRepository } from "../../accounts/typeorm/repositories/AccountRepository";
+import { plainToClass } from "class-transformer";
+import { Customer } from "../typeorm/entities/Customer";
 export class CreateCustomer {
 
     public async execute({ username, password }: ICreateCustomer) {
@@ -30,13 +32,16 @@ export class CreateCustomer {
         await CustomerRepository.associateAccount(customer, account);
 
         const token = sign({}, authConfig.jwt.customerSecret, {
-            subject: customer.id.toString(),
+            subject: JSON.stringify({
+                customerId: customer.id,
+                accountId: account.id
+            }),
             expiresIn: authConfig.jwt.expiresIn
         })
 
         //@ts-expect-error 
         delete customer.account.customer;
 
-        return { customer, token }
+        return { customer: plainToClass(Customer, customer), token }
     }
 }
