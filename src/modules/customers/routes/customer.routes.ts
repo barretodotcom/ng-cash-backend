@@ -1,6 +1,5 @@
 import { Router } from "express";
 import { CustomerController } from "../controllers/CustomerController";
-import { CustomerRepository } from "../typeorm/repository/CustomerRepository";
 
 const customerRoutes = Router()
 
