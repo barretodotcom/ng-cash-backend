@@ -21,7 +21,6 @@ export class ListUserTransactionsService {
 
         const allAccountTransactions = await TransactionsRepository.findAllUserTransactions(account);
         const customer = await CustomerRepository.findByAccount(account);
-        console.log(customer);
 
         return { customer: plainToClass(Customer, customer), allAccountTransactions };
     }

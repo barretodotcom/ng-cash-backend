@@ -1,6 +1,9 @@
-FROM rabbitmq:3.7-management
+FROM node:18-alpine3.14
 
-COPY rabbitmq.conf /etc/rabbitmq
-COPY rabbitmq-defs.json /etc/rabbitmq
+COPY . .
 
-RUN cat /etc/rabbitmq/rabbitmq.conf
+RUN npm install
+
+EXPOSE 3000
+
+CMD ["npm", "run", "dev"]

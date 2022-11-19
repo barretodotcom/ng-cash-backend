@@ -33,6 +33,7 @@ export default function isCustomerAuthenticated(request: Request, response: Resp
             customerId: subjectData.customerId,
             accountId: subjectData.accountId
         }
+
         return next();
     } catch {
         throw new AppError("Token inválido.")

@@ -3,9 +3,10 @@ version: '3'
 services:
   api:
     container_name: ng-cash
-    image: node:18-alpine3.15
+    image: node:18-alpine3.14
     restart: 'always'
     tty: true
+    build: .
     depends_on:
       - db
     ports:
@@ -28,19 +29,19 @@ services:
     hostname: rabbitmq-container
     image: rabbitmq:3.7-management
     container_name: ng-cash-rabbitmq
-    build: .
+    build: ./dockerfile-rmq
     ports:
       - 15672:15672
       - 5672:5672
     volumes:
       - type: bind
-        source: ./rabbitmq-enabled-plugins
+        source: ./dockerfile-rmq/rabbitmq-enabled-plugins
         target: /etc/rabbitmq/enabled_plugins
       - type: bind
-        source: ./rabbitmq.conf
+        source: ./dockerfile-rmq/rabbitmq.conf
         target: /etc/rabbitmq/rabbitmq.conf
       - type: bind
-        source: ./rabbitmq-defs.json
+        source: ./dockerfile-rmq/rabbitmq-defs.json
         target: /etc/rabbitmq/rabbitmq-defs.json
 
 networks:

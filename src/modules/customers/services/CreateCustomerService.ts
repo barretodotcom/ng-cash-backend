@@ -7,6 +7,7 @@ import { authConfig } from "../../../config/authConfig";
 import { AccountRepository } from "../../accounts/typeorm/repositories/AccountRepository";
 import { plainToClass } from "class-transformer";
 import { Customer } from "../typeorm/entities/Customer";
+import { passwordIsValid, passwordValidator } from "../../../config/passwordValidator";
 export class CreateCustomer {
 
     public async execute({ username, password }: ICreateCustomer) {
@@ -19,6 +20,10 @@ export class CreateCustomer {
 
         if (customerExists) {
             throw new AppError(`O usuário ${customerExists.username} já está cadastrado.`)
+        }
+
+        if (!passwordIsValid(password)) {
+            throw new AppError('Sua senha precisa conter no mínimo uma letra maiúscula e um número');
         }
 
         const salt = genSaltSync();

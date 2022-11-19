@@ -19,6 +19,7 @@ export class TransactionsRepository {
     }
 
     static async findAllUserTransactions(account: Account): Promise<Transactions[]> {
+
         const allUserTransactions = await this.transactionsRepository.query(`
         SELECT
             t.id,
